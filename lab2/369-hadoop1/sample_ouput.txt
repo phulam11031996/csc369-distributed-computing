@@ -1,0 +1,34 @@
+To run program:
+    - For first query, type 'make one'
+    - For second query, type 'make two'
+    - For third query, type 'make three'
+    - For fourth query, type 'make four'
+    - For fifth query, type 'make five'
+    - For sixth query, type 'make six'
+
+Note: the output will also be printed in the terminal not just generating files.
+
+Sample output:
+Second query: 
+404     5
+302     6
+401     123
+200     1272
+
+Third query with 'lordgun.org' is the given address
+lordgun.org     2869
+
+Fourth query with '/twiki/bin/view/Main/MikeMannix' is the given url
+lj1223.inktomisearch.com        1
+64.242.88.10    2
+
+Fifth query:
+Year: 2004, Month: 03   1406
+
+Sixth query:
+12/Mar/2004     287227
+09/Mar/2004     978411
+11/Mar/2004     1265093
+10/Mar/2004     1357604
+07/Mar/2004     2427368
+08/Mar/2004     4617302

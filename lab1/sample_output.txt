@@ -1,0 +1,33 @@
+
+Enter your choice(1 - 5): 1
+enter event id: 15803655003
+{"id":"15803655003","type":"CreateEvent","actor":{"id":71371746,"login":"AnanyDeep","display_login":"AnanyDeep","gravatar_id":"","url":"https://api.github.com/users/AnanyDeep","avatar_url":"https://avatars.githubusercontent.com/u/71371746?"},"repo":{"id":354322736,"name":"AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native","url":"https://api.github.com/repos/AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native"},"payload":{"ref":null,"ref_type":"repository","master_branch":"master","description":"Signal_Clone_Authentication_Firebase_With_React_Native","pusher_type":"user"},"public":true,"created_at":"2021-04-03T15:11:52Z"}
+
+
+1 - First Query, 2 - Second Query, 3 - Third Query, 4 - Fourth Query, 5 - Fifth Query.
+Enter your choice(1 - 5): 2
+enter event id from: 15803655003
+enter event id to: 15803655005
+{"id":"15803655003","type":"CreateEvent","actor":{"id":71371746,"login":"AnanyDeep","display_login":"AnanyDeep","gravatar_id":"","url":"https://api.github.com/users/AnanyDeep","avatar_url":"https://avatars.githubusercontent.com/u/71371746?"},"repo":{"id":354322736,"name":"AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native","url":"https://api.github.com/repos/AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native"},"payload":{"ref":null,"ref_type":"repository","master_branch":"master","description":"Signal_Clone_Authentication_Firebase_With_React_Native","pusher_type":"user"},"public":true,"created_at":"2021-04-03T15:11:52Z"}
+
+{"id":"15803655004","type":"WatchEvent","actor":{"id":48738431,"login":"giovaneaguiar","display_login":"giovaneaguiar","gravatar_id":"","url":"https://api.github.com/users/giovaneaguiar","avatar_url":"https://avatars.githubusercontent.com/u/48738431?"},"repo":{"id":354308872,"name":"giovaneaguiar/Star-Devs","url":"https://api.github.com/repos/giovaneaguiar/Star-Devs"},"payload":{"action":"started"},"public":true,"created_at":"2021-04-03T15:11:52Z"}
+
+{"id":"15803655005","type":"PushEvent","actor":{"id":3830633,"login":"suren-m","display_login":"suren-m","gravatar_id":"","url":"https://api.github.com/users/suren-m","avatar_url":"https://avatars.githubusercontent.com/u/3830633?"},"repo":{"id":353981869,"name":"suren-m/corgi-db","url":"https://api.github.com/repos/suren-m/corgi-db"},"payload":{"push_id":6842050961,"size":1,"distinct_size":1,"ref":"refs/heads/main","head":"fb7765880f8cce996cd608c98260e1d9257f9f37","before":"50c85df7d3d0d370c75ef6f92d0bec9982cf0bea","commits":[{"sha":"fb7765880f8cce996cd608c98260e1d9257f9f37","author":{"name":"suren-m","email":"b9dea8ea2f295ba27ee8cb5c8ebdc762e9f5e873@hotmail.com"},"message":"Update README.md","distinct":true,"url":"https://api.github.com/repos/suren-m/corgi-db/commits/fb7765880f8cce996cd608c98260e1d9257f9f37"}]},"public":true,"created_at":"2021-04-03T15:11:52Z"}
+
+
+1 - First Query, 2 - Second Query, 3 - Third Query, 4 - Fourth Query, 5 - Fifth Query.
+Enter your choice(1 - 5): 3
+{'PushEvent': 59393, 'CreateEvent': 15950, 'PullRequestEvent': 7617, 'WatchEvent': 6180, 'IssueCommentEvent': 5348, 'DeleteEvent': 3100, 'IssuesEvent': 2857, 'ForkEvent': 2173, 'PullRequestReviewEvent': 1740, 'PullRequestReviewCommentEvent': 1061, 'ReleaseEvent': 523, 'CommitCommentEvent': 489, 'PublicEvent': 401, 'GollumEvent': 339, 'MemberEvent': 276}
+
+1 - First Query, 2 - Second Query, 3 - Third Query, 4 - Fourth Query, 5 - Fifth Query.
+Enter your choice(1 - 5): 4
+enter display actor name: AnanyDeep
+{'AnanyDeep/Rock_Paper_Scissors_Game_React_Native', 'AnanyDeep/React_Native_Spanish_Number_Sound_App', 'AnanyDeep/React_Native_Led_Control_App_Using_Firebase', 'AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native', 'AnanyDeep/React_Native_Quiz_App_UI_Platform_Specific_Code', 'AnanyDeep/Cisco_Packet_Tracer_Projects', 'AnanyDeep/React_Native_List_App_With_Firebase', 'AnanyDeep/React_Native_Grow_With_Quiz_App_Using_Firebase_Authentication'}
+
+1 - First Query, 2 - Second Query, 3 - Third Query, 4 - Fourth Query, 5 - Fifth Query.
+Enter your choice(1 - 5): 5
+enter repo name: AnanyDeep/Signal_Clone_Authentication_Firebase_With_React_Native
+{'AnanyDeep'}
+
+1 - First Query, 2 - Second Query, 3 - Third Query, 4 - Fourth Query, 5 - Fifth Query.
+Enter your choice(1 - 5): 
