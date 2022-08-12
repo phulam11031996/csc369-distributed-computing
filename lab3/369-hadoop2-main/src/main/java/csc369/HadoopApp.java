@@ -29,7 +29,12 @@ public class HadoopApp {
     if (otherArgs.length < 3) {
         System.out.println("Expected parameters: <job class> [<input dir>]+ <output dir>");
         System.exit(-1);
+
     } else if ("FirstQueryPart1".equalsIgnoreCase(otherArgs[0])) {
+        System.out.println(otherArgs[1]);
+        System.out.println(otherArgs[2]);
+        System.out.println(otherArgs[3]);
+        
         MultipleInputs.addInputPath(job, new Path(otherArgs[1]),
                     KeyValueTextInputFormat.class, FirstQueryPart1.MapperAccessLog.class );
         MultipleInputs.addInputPath(job, new Path(otherArgs[2]),
@@ -50,16 +55,10 @@ public class HadoopApp {
     } else if ("FirstQueryOutput".equalsIgnoreCase(otherArgs[0])) {
         job.setReducerClass(FirstQueryOutput.ReducerImpl.class);
         job.setMapperClass(FirstQueryOutput.MapperImpl.class);
+        job.setCombinerClass(FirstQueryOutput.CombinerImpl.class);
+        job.setGroupingComparatorClass(FirstQueryOutput.GroupingComparator.class);
         job.setOutputKeyClass(FirstQueryOutput.OUTPUT_KEY_CLASS);
         job.setOutputValueClass(FirstQueryOutput.OUTPUT_VALUE_CLASS);
-        FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
-        FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
-
-    } else if ("AccessLog".equalsIgnoreCase(otherArgs[0])) {
-        job.setReducerClass(AccessLog.ReducerImpl.class);
-        job.setMapperClass(AccessLog.MapperImpl.class);
-        job.setOutputKeyClass(AccessLog.OUTPUT_KEY_CLASS);
-        job.setOutputValueClass(AccessLog.OUTPUT_VALUE_CLASS);
         FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
         FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
     } else {

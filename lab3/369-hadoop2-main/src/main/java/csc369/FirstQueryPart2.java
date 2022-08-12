@@ -2,11 +2,6 @@ package csc369;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.IntWritable;
@@ -17,6 +12,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class FirstQueryPart2 {
 
     public static HashMap<String, String> ipAddressCountry = new HashMap<>();
+
     public static final Class OUTPUT_KEY_CLASS = Text.class;
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
@@ -36,23 +32,23 @@ public class FirstQueryPart2 {
                 context.write(hostname, one);
             }
         }
+
     }
 
     public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
-        private IntWritable result = new IntWritable();
 
         @Override
-        protected void reduce(Text word, Iterable<IntWritable> intOne,
+        protected void reduce(Text word, Iterable<IntWritable> intOnes,
                 Context context) throws IOException, InterruptedException {
             int sum = 0;
-            Iterator<IntWritable> itr = intOne.iterator();
 
-            while (itr.hasNext()) {
-                sum += itr.next().get();
-            }
-            result.set(sum);
-            context.write(new Text(ipAddressCountry.get(word.toString())), result);
+            for (IntWritable one : intOnes)
+                sum += one.get();
+
+            String country = ipAddressCountry.get(word.toString());
+            context.write(new Text(country), new IntWritable(sum));
         }
+
     }
-    
+
 }
