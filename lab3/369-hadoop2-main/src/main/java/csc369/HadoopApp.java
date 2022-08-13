@@ -1,11 +1,5 @@
 package csc369;
-
 import java.io.IOException;
-
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
-
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.conf.Configuration;
@@ -14,7 +8,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
 public class HadoopApp {
@@ -76,6 +69,15 @@ public class HadoopApp {
             FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
             FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
 
+        } else if ("SecondQueryOutput".equalsIgnoreCase(otherArgs[0])) {
+            job.setReducerClass(SecondQueryOutput.ReducerImpl.class);
+            job.setMapperClass(SecondQueryOutput.MapperImpl.class);
+            job.setCombinerClass(SecondQueryOutput.CombinerImpl.class);
+            // job.setGroupingComparatorClass(SecondQueryOutput.GroupingComparator.class);
+            job.setOutputKeyClass(SecondQueryOutput.OUTPUT_KEY_CLASS);
+            job.setOutputValueClass(SecondQueryOutput.OUTPUT_VALUE_CLASS);
+            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+            FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
 
         } else {
             System.out.println("Unrecognized job: " + otherArgs[0]);
