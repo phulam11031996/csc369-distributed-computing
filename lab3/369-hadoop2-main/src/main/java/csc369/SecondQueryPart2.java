@@ -9,7 +9,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class FirstQueryPart2 {
+public class SecondQueryPart2 {
 
     public static HashMap<String, String> ipAddressCountry = new HashMap<>();
 
@@ -21,12 +21,15 @@ public class FirstQueryPart2 {
         @Override
         protected void map(LongWritable key, Text value,
                 Context context) throws IOException, InterruptedException {
-            String[] sa = value.toString().replaceAll("\\s+", " ").split(" ");
+            String[] sa = value
+                    .toString()
+                    .replaceAll("\\s+", " ")
+                    .split(" ");
 
-            if (sa.length == 2) {
-                ipAddressCountry.put(sa[0], sa[1]);
+            if (sa.length == 3) {
+                ipAddressCountry.put(sa[0], sa[2]);
             } else {
-                String hostname = sa[0];
+                String hostname = sa[0] + " " + sa[1];
                 context.write(new Text(hostname), new IntWritable(1));
             }
         }
@@ -38,13 +41,18 @@ public class FirstQueryPart2 {
         @Override
         protected void reduce(Text word, Iterable<IntWritable> intOnes,
                 Context context) throws IOException, InterruptedException {
+            String[] sa = word
+                    .toString()
+                    .replaceAll("\\s+", " ")
+                    .split(" ");
+
             int sum = 0;
 
             for (IntWritable one : intOnes)
                 sum += one.get();
 
-            String country = ipAddressCountry.get(word.toString());
-            context.write(new Text(country), new IntWritable(sum));
+            String countryAndUrl = ipAddressCountry.get(sa[0]) + " " + sa[1];
+            context.write(new Text(countryAndUrl), new IntWritable(sum));
         }
 
     }

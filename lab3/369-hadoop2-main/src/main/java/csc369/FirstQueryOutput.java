@@ -22,10 +22,9 @@ public class FirstQueryOutput {
                 Context context) throws IOException, InterruptedException {
             String[] sa = value.toString().replaceAll("\\s+", " ").split(" ");
 
-            Text hostname = new Text();
-            hostname.set(sa[0]);
+            String hostname = sa[0];
             IntWritable count = new IntWritable(Integer.valueOf(sa[1]));
-            context.write(hostname, count);
+            context.write(new Text(hostname), count);
         }
     }
 
@@ -39,9 +38,8 @@ public class FirstQueryOutput {
             for (IntWritable count : counts)
                 sum += count.get();
 
-            Text hostnameCount = new Text();
-            hostnameCount.set(hostname + " " + String.valueOf(sum));
-            context.write(hostnameCount, new IntWritable(sum));
+            String hostnameAndCount = hostname + " " + String.valueOf(sum);
+            context.write(new Text(hostnameAndCount), new IntWritable(sum));
         }
     }
 
@@ -71,12 +69,12 @@ public class FirstQueryOutput {
         @Override
         protected void reduce(Text hostname, Iterable<IntWritable> count,
                 Context context) throws IOException, InterruptedException {
-            Text currHostname = new Text(hostname.toString().split(" ")[0]);
+            String currHostname = hostname.toString().split(" ")[0];
 
-            for (IntWritable el : count) {
-                context.write(currHostname, el);
-            }
+            for (IntWritable el : count)
+                context.write(new Text(currHostname), el);
         }
+
     }
 
 }

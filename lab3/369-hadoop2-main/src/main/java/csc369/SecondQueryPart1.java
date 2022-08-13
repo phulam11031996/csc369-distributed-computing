@@ -6,7 +6,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class FirstQueryPart1 {
+public class SecondQueryPart1 {
 
     public static final Class OUTPUT_KEY_CLASS = Text.class;
     public static final Class OUTPUT_VALUE_CLASS = Text.class;
@@ -15,7 +15,11 @@ public class FirstQueryPart1 {
 
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-            context.write(key, value);
+            String[] sa = key.toString().split(" ");
+            String ip = sa[0];
+            String url = sa[6];
+
+            context.write(new Text(ip), new Text(url));
         }
 
     }
@@ -24,7 +28,7 @@ public class FirstQueryPart1 {
 
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-            String id = key.toString().replaceAll("\\s+", "");
+            String id = key.toString().replaceAll("\\s+", "") + " A";
             String message = value.toString().replaceAll("\\s+", "");
 
             context.write(new Text(id), new Text(message));
