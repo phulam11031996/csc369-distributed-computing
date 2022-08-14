@@ -17,7 +17,6 @@ public class FirstQueryPart1 {
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
     public static class MapperAccessLog extends Mapper<Text, Text, Text, IntWritable> {
-
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
             String[] strVal = key.toString().replaceAll("\\s+", " ").split(" ");
@@ -25,11 +24,9 @@ public class FirstQueryPart1 {
 
             context.write(new Text(token1), new IntWritable(1));
         }
-
     }
 
     public static class MapperHostnameCountry extends Mapper<Text, Text, Text, IntWritable> {
-
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
             String hostname = key.toString().replaceAll("\\s+", "");
@@ -37,7 +34,6 @@ public class FirstQueryPart1 {
 
             hostnameAndCountry.put(hostname.toString(), country.toString());
         }
-
     }
 
     public static class GroupingComparator extends WritableComparator {
@@ -53,11 +49,9 @@ public class FirstQueryPart1 {
 
             return country1.compareTo(country2);
         }
-
     }
 
     public static class JoinReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-
         @Override
         public void reduce(Text hostnames, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
@@ -69,7 +63,6 @@ public class FirstQueryPart1 {
 
             context.write(new Text(country), new IntWritable(sum));
         }
-
     }
 
 }

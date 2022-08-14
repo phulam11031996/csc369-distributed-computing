@@ -65,19 +65,20 @@ public class HadoopApp {
         } else if ("SecondQueryOutput".equalsIgnoreCase(otherArgs[0])) {
             job.setReducerClass(SecondQueryOutput.ReducerImpl.class);
             job.setMapperClass(SecondQueryOutput.MapperImpl.class);
-
             job.setGroupingComparatorClass(SecondQueryOutput.GroupingComparator.class);
             job.setSortComparatorClass(SecondQueryOutput.SortComparator.class);
-
             job.setOutputKeyClass(SecondQueryOutput.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(SecondQueryOutput.OUTPUT_VALUE_CLASS);
             FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
             FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
+
         } else {
             System.out.println("Unrecognized job: " + otherArgs[0]);
             System.exit(-1);
+
         }
         System.exit(job.waitForCompletion(true) ? 0 : 1);
+
     }
 
 }

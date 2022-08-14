@@ -3,14 +3,8 @@ package csc369;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.naming.InitialContext;
-import javax.sound.midi.SysexMessage;
-
-import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -21,7 +15,6 @@ public class SecondQueryPart1 {
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
     public static class MapperAccessLog extends Mapper<Text, Text, Text, IntWritable> {
-
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
             String[] strVal = key.toString().replaceAll("\\s+", " ").split(" ");
@@ -31,11 +24,9 @@ public class SecondQueryPart1 {
 
             context.write(new Text(hostnameAndUrl), new IntWritable(1));
         }
-
     }
 
     public static class MapperHostnameCountry extends Mapper<Text, Text, Text, IntWritable> {
-
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
             String hostname = key.toString().replaceAll("\\s+", "");
@@ -43,11 +34,9 @@ public class SecondQueryPart1 {
 
             hostnameAndCountry.put(hostname.toString(), country.toString());
         }
-
     }
 
     public static class JoinReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-
         @Override
         public void reduce(Text key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
@@ -63,7 +52,6 @@ public class SecondQueryPart1 {
 
             context.write(new Text(country + " " + url), new IntWritable(sum));
         }
-
     }
 
 }

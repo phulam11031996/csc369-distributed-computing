@@ -3,15 +3,9 @@ package csc369;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.naming.InitialContext;
-import javax.sound.midi.SysexMessage;
-
-import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 

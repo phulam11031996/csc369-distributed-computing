@@ -18,7 +18,6 @@ public class FirstQueryOutput {
     public static final Class OUTPUT_VALUE_CLASS = Text.class;
 
     public static class MapperImpl extends Mapper<LongWritable, Text, IntWritable, Text> {
-
         @Override
         protected void map(LongWritable keys, Text values,
                 Context context) throws IOException, InterruptedException {
@@ -28,7 +27,6 @@ public class FirstQueryOutput {
 
             context.write(new IntWritable(sum), new Text(country));
         }
-
     }
 
     public static class SortComparator extends WritableComparator {
@@ -48,7 +46,6 @@ public class FirstQueryOutput {
     }
 
     public static class ReducerImpl extends Reducer<IntWritable, Text, Text, IntWritable> {
-
         @Override
         protected void reduce(IntWritable sums, Iterable<Text> countries,
                 Context context) throws IOException, InterruptedException {
@@ -56,7 +53,6 @@ public class FirstQueryOutput {
             for (Text country : countries)
                 context.write(new Text(country), sums);
         }
-
     }
 
 }

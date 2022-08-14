@@ -24,11 +24,10 @@ public class SecondQueryOutput {
             String url = strVal[1];
             int sum = Integer.valueOf(strVal[2]);
 
-
             context.write(new HostUrlCountPair(country, url, sum), new IntWritable(sum));
         }
     }
-    
+
     public static class PartitionerImpl extends Partitioner<HostUrlCountPair, IntWritable> {
         @Override
         public int getPartition(HostUrlCountPair pair,
@@ -66,13 +65,11 @@ public class SecondQueryOutput {
             HostUrlCountPair pair2 = (HostUrlCountPair) hostUrlCountPair2;
 
             return pair1.compareTo(pair2);
-
         }
     }
 
     // output one line for each month, with the temperatures sorted for that month
     public static class ReducerImpl extends Reducer<HostUrlCountPair, IntWritable, Text, IntWritable> {
-
         @Override
         protected void reduce(HostUrlCountPair key,
                 Iterable<IntWritable> values, Context context)
