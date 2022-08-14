@@ -1,0 +1,29 @@
+Lab 2: MapReduce / Hadoop
+
+This is an individual lab.  Using the Java Hadoop MapReduce framework, produce the following reports based on input that consists of Apache HTTP log file(s):
+
+    Requests count for each URL path, sorted by request count (ascending)
+    Requests count for each HTTP response code, sorted by response code (ascending)
+    Total bytes sent to the client with a specified hostname or IPv4 address (you may hard code an address)
+    Based on a given URL (hard coded), compute a request count for each client (hostname or IPv4) who accessed that URL, sorted by request count (ascending)
+    Request count for each calendar month and year, sorted chronologically
+    For each calendar day that appears in the file, return total bytes sent. Sort by total bytes in ascending order.
+
+Notes/Requirements
+
+    Your program should follow the conventions from the hadoop1 example projectLinks to an external site.  (Gradle build, MRUnit.) The example code should run using JDK version 1.8+, using the following command: ./gradlew run --args="<JobName> <input folder> <output folder>"
+    The sample project includes an access.log file (in the input_acces_log/ directory)  You may use this for testing. I also encourage you to test against additional data that follows the Apache HTTP log format (either simulated data, or sample files that you locate on your own)
+
+    You may assume that the access log file follows Apache log format, described here:
+
+         https://httpd.apache.org/docs/current/logs.html#commonLinks to an external site.
+    If a given report requires multiple Map/Reduce phases, describe the input and output of each map reduce job in your README file.
+    All output should be in text format, using the default Hadoop directory structure. You do not need to post-process the data in any way.
+
+On Windows, the 369-hadoop1 project may need to be run under the Windows Subsystem for LinuxLinks to an external site.. Or (as an imperfect alternative) you may use the approach found in this NotebookLinks to an external site..
+
+Submit via Canvas all code (or a link to a git repo to which user "amigler" has access) along with two text files:
+
+    A README.txt file that includes your name along with a brief (1-2 paragraph) description of your map/reduce implementation (eg. input and output of each map/reduce phase).
+    A sample_output.txt file that shows example command input and output (eg. cat out_folder\part-r* for each of your program features
+

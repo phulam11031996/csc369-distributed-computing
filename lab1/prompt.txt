@@ -1,0 +1,27 @@
+Lab 1: Partitioning Data
+
+This is an individual lab based on publicly-available GitHub event data (https://www.gharchive.org/Links to an external site.). The tasks for this lab are:
+
+    Develop a program that parses and partitions JSONLinks to an external site.-formatted GitHub event logs.
+        Since the event log files are large, you may use just one hour's worth of data. For example, 3-4pm UTC on April 3rd, 2021: https://data.gharchive.org/2021-04-03-15.json.gzLinks to an external site.
+        Choose a partitioning strategy that divides the log entries into not more than 10 partitions. Your partitions do not need to be exactly the same size, but should be approximately balanced; no one partition should be more than 20% larger than any other, considering either count of lines/events or byte count. Write out the partitioned data to separate files on disk, using numbered filenames: partition00.json through partition0n.json
+        Your program should take as input a single .json filename (eg. 2021-04-03-15.json), and should exit after writing out the partitioned data, overwriting any partition0n.json files that may already exist.
+        You may optionally generate an index file which contains information about your partition structure (eg. key range boundaries, hash table details, etc.) If you choose to create an index, it should be written to a single file named index.json This index file must be uncompressed, in JSON format, and should be no larger than 500 kilobytes in size. The exact structural details of this index file are yours to define.
+    Develop a second program (or multiple programs, if you choose) to query the partitioned files (and index, if you choose) as follows:
+        Given a specific event ID, print all details for that event as a single JSON string
+        Given a range of event IDs, print details for all events within that range (inclusive)
+        Produce a summary by event type. For each event type (eg. PullRequestEvent, CreateEvent, PushEvent, etc.) compute the number of events of that type. Display in descending order by count of events.
+        Given an "actor" login name, list (in any order) the names of all repositories with which that actor has interacted in any way. For example, actor dependabot has interacted with SynBioHub/synbiohub, LanikSJ/docker-php-alpine, ... (and many others)
+            actor name should be based on the JSON field actor.display_login
+            repository name should be the JSON field: repo.name
+        Given the short name of a repository (eg. SynBioHub/synbiohub), display (in any order) the login names of all actors who have interacted with that repository in any way.
+
+ 
+
+Notes/Requirements
+
+    You may use any programming language along with its standard libraries and packages. As a general guide, if an external package requires extensive compilation, installation, and/or sudo access, I would prefer that you do not use it. Your code does not specifically need to run on the CSC UNIX servers. Please include any special instructions that may be required to run your code.
+    For each of your part 2 queries, your program should output the resulting data (precise formatting is up to you) as well as two integer counts that your program must maintain internally:
+        count of different partition files that were accessed to return the requested data
+        count of records/lines (in total) inspected to answer this particular query
+    Your part 2 program(s) may assume knowledge of the partitioning strategy used. You do not need to maintain a separate index, though you may do so if you choose.

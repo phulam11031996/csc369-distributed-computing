@@ -1,0 +1,17 @@
+Homework 1: Survey of Distributed Data Stores
+
+Assignment:
+
+    Choose one distributed data store from the shared listLinks to an external site.
+    Fill in the "Student (username)" column with your own username (one student per data store)
+    Explore available documentation for your chosen data store (including reference documents, developer information, articles, etc.) with a specific focus on support for replication and partitioning.
+    Write a one-page narrative summary describing replication and partitioning options supported by your chosen data store. Make sure to note the specific software version you investigate. Include citations/links to relevant documentation. Submit this to canvas. Your document should cover the following aspects (some areas may not be applicable to all data stores):
+        Default Replication Mode
+        Other Supported Replication Mode(s)
+        Support for Multi-Leader and/or Leaderless Replication
+        Leaderless Topology Support
+        Default Partitioning Strategy
+        Other Supported Partitioning Strategies
+        Partition Rebalancing Strategies
+        Index Types Supported
+    Note that summaries will be shared with all students for review.

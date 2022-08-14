@@ -7,18 +7,18 @@ class Lab1:
                 
     def __init__(self) -> None:
         self.json_list = list()
-            self.index_file_name = 'index.json'
-            self.input_file_name = '2021-04-03-15.json'
-            self.output_file_names = ['partition00.json',
-                    'partition01.json',
-                    'partition02.json',
-                    'partition03.json',
-                    'partition04.json',
-                    'partition05.json',
-                    'partition06.json',
-                    'partition07.json',
-                    'partition08.json',
-                    'partition09.json']
+        self.index_file_name = 'index.json'
+        self.input_file_name = '2021-04-03-15.json'
+        self.output_file_names = ['partition00.json',
+                'partition01.json',
+                'partition02.json',
+                'partition03.json',
+                'partition04.json',
+                'partition05.json',
+                'partition06.json',
+                'partition07.json',
+                'partition08.json',
+                'partition09.json']
 
         self.read_and_store_file()
         self.write_to_partition_files()

@@ -1,0 +1,22 @@
+Lab 3: Joins in MapReduce
+
+This is an individual lab.  Using the Java Hadoop MapReduce framework implement the following:
+
+    Given an Apache HTTP access log, along with a CSV file that includes country information for hostnames (sample file: hostname_country.csv Download hostname_country.csv ), produce a report that shows the total request count for each country, sorted by request count (highest to lowest)
+        The choice of map-side or reduce-side join is yours to make. Please include a few sentences in your write-up that describes your reasons for choosing one join approach over the other.
+    Using the same two input files (access.log and hostname_country.csv), produce a report that lists, for each country, the count of each URL visited. Sort by country (alphabetically, A-Z) then count (from highest to lowest), For example:
+      Argentina  /home   115
+      Argentina /another/page.html  105
+      ...
+      United States  /robots.txt   185
+      United States /another/page.html  120
+      Uruguay  /home  310
+      Uruguay  /another/page.html  120
+      ...
+
+Notes/Requirements
+
+    Your program should follow the conventions from the hadoop-example2Links to an external site. (reduce-side join) or hadoop-example3Links to an external site. (sorting) projects  (Gradle build, MRUnit.)
+    Except as provided above or in previous labs, it is your responsibility to create test data files. Your test files should be less than 1MB in total size. Please submit these files along with your code.
+    If a given task requires multiple Map/Reduce phases, describe the input and output of each map reduce job in your README file.
+    All output should be in plain-text format, using a directory/file structure you define. You do not need to post-process the data in any way.
