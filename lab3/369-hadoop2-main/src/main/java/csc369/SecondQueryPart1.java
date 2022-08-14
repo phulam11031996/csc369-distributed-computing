@@ -1,47 +1,67 @@
 package csc369;
 
 import java.io.IOException;
+import java.util.HashMap;
 
+import javax.naming.InitialContext;
+import javax.sound.midi.SysexMessage;
+
+import org.apache.commons.configuration.SystemConfiguration;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.WritableComparable;
+import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class SecondQueryPart1 {
 
+    public static HashMap<String, String> hostnameAndCountry = new HashMap<>();
     public static final Class OUTPUT_KEY_CLASS = Text.class;
-    public static final Class OUTPUT_VALUE_CLASS = Text.class;
+    public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
-    public static class MapperAccessLog extends Mapper<Text, Text, Text, Text> {
+    public static class MapperAccessLog extends Mapper<Text, Text, Text, IntWritable> {
 
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-            String[] sa = key.toString().split(" ");
-            String ip = sa[0];
-            String url = sa[6];
+            String[] strVal = key.toString().replaceAll("\\s+", " ").split(" ");
+            String token1 = strVal[0]; // hostname
+            String token6 = strVal[6]; // url
+            String hostnameAndUrl = token1 + " " + token6;
 
-            context.write(new Text(ip), new Text(url));
+            context.write(new Text(hostnameAndUrl), new IntWritable(1));
         }
 
     }
 
-    public static class MapperHostnameCountry extends Mapper<Text, Text, Text, Text> {
+    public static class MapperHostnameCountry extends Mapper<Text, Text, Text, IntWritable> {
 
         @Override
         public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-            String id = key.toString().replaceAll("\\s+", "") + " A";
-            String message = value.toString().replaceAll("\\s+", "");
+            String hostname = key.toString().replaceAll("\\s+", "");
+            String country = value.toString().replaceAll("\\s+", "");
 
-            context.write(new Text(id), new Text(message));
+            hostnameAndCountry.put(hostname.toString(), country.toString());
         }
 
     }
 
-    public static class JoinReducer extends Reducer<Text, Text, Text, Text> {
+    public static class JoinReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
         @Override
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            for (Text val : values)
-                context.write(key, val);
+        public void reduce(Text key, Iterable<IntWritable> values, Context context)
+                throws IOException, InterruptedException {
+            String[] hostnameAndUrl = key.toString().replaceAll("\\s+", " ").split(" ");
+            String hostname = hostnameAndUrl[0];
+            String url = hostnameAndUrl[1];
+            String country = hostnameAndCountry.get(hostname);
+
+            int sum = 0;
+
+            for (IntWritable val : values)
+                sum += val.get();
+
+            context.write(new Text(country + " " + url), new IntWritable(sum));
         }
 
     }

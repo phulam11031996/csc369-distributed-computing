@@ -2,117 +2,86 @@ package csc369;
 
 import java.io.IOException;
 
-
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.WritableComparator;
+import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Partitioner;
 
 public class SecondQueryOutput {
 
-    public static final Class OUTPUT_KEY_CLASS = Text.class;
+    public static final Class OUTPUT_KEY_CLASS = HostUrlCountPair.class;
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
-    public static class MapperImpl extends Mapper<LongWritable, Text, Text, IntWritable> {
-
+    public static class MapperImpl extends Mapper<LongWritable, Text, HostUrlCountPair, IntWritable> {
         @Override
-        protected void map(LongWritable key, Text value,
-                Context context) throws IOException, InterruptedException {
-            String[] sa = value.toString().replaceAll("\\s+", " ").split(" ");
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+            String[] strVal = value.toString().replaceAll("\\s+", " ").split(" ");
+            String country = strVal[0];
+            String url = strVal[1];
+            int sum = Integer.valueOf(strVal[2]);
 
-            String countryUrlAndCount = sa[0] + " " + sa[1] + " " + sa[2];
-            int count = Integer.valueOf(sa[2]);
 
-            context.write(new Text(countryUrlAndCount), new IntWritable(count));
+            context.write(new HostUrlCountPair(country, url, sum), new IntWritable(sum));
         }
     }
-
-    // public static class CombinerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-    //     @Override
-    //     public void reduce(Text countriesAndUrls, Iterable<IntWritable> counts, Context context)
-    //             throws IOException, InterruptedException {
-            
-    //         int sum = 0;
-
-    //         for (IntWritable count : counts)
-    //             sum += count.get();
-
-    //         context.write(countriesAndUrls, new IntWritable(sum));
-    //     }
-    // }
-
-    // public static class CombinerImpl2 extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-    //     @Override
-    //     public void reduce(Text countriesAndUrls, Iterable<IntWritable> counts, Context context)
-    //             throws IOException, InterruptedException {
-
-    //         System.out.println("xxxxxxxxxxx");
-    //         int sum = 0;
-
-    //         for (IntWritable count : counts)
-    //             sum += count.get();
-
-
-    //         String countryUrlAndCount = countriesAndUrls.toString() + " " + String.valueOf(sum);
-    //         context.write(new Text(countryUrlAndCount), new IntWritable(sum));
-    //     }
-    // }
+    
+    public static class PartitionerImpl extends Partitioner<HostUrlCountPair, IntWritable> {
+        @Override
+        public int getPartition(HostUrlCountPair pair,
+                IntWritable sum,
+                int numberOfPartitions) {
+            return Math.abs(pair.getCountryUrl().hashCode() % numberOfPartitions);
+        }
+    }
 
     public static class GroupingComparator extends WritableComparator {
         public GroupingComparator() {
-            super(Text.class, true);
+            super(HostUrlCountPair.class, true);
         }
 
         @Override
-        public int compare(WritableComparable text1,
-                WritableComparable text2) {
+        public int compare(WritableComparable hostUrlCountPair1,
+                WritableComparable hostUrlCountPair2) {
+            HostUrlCountPair pair1 = (HostUrlCountPair) hostUrlCountPair1;
+            HostUrlCountPair pair2 = (HostUrlCountPair) hostUrlCountPair2;
 
-            String country1 = text1.toString().split(" ")[0];
-            String country2 = text2.toString().split(" ")[0];
-
-            String url1 = text1.toString().split(" ")[1];
-            String url2 = text2.toString().split(" ")[1];
-
-            String countryAndUrl1 = country1 + url1;
-            String countryAndUrl2 = country2 + url2;
-
-            int count1 = Integer.valueOf(text1.toString().split(" ")[2]);
-            int count2 = Integer.valueOf(text2.toString().split(" ")[2]);
-            
-            if (countryAndUrl1.equals(countryAndUrl2)) {
-                if (count1 < count2)
-                    return 1;
-                else if (count1 > count2)
-                    return -1;
-                else
-                    return 0;
-            } else {
-                return countryAndUrl1.compareTo(countryAndUrl2);
-            }
+            return pair1.getCountryUrl().compareTo(pair2.getCountryUrl());
         }
     }
 
-    public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-        @Override
-        protected void reduce(Text countriesUrlsAndCounts, Iterable<IntWritable> counts,
-                Context context) throws IOException, InterruptedException {
-            
-            String[] sa = countriesUrlsAndCounts.toString().split(" ");
-            String countryAndUrl = sa[0] + " " + sa[1];
-
-            for (IntWritable el : counts)
-                context.write(new Text(countryAndUrl), el);
-
+    // used to perform secondary sort on temperature
+    public static class SortComparator extends WritableComparator {
+        protected SortComparator() {
+            super(HostUrlCountPair.class, true);
         }
 
+        @Override
+        public int compare(WritableComparable hostUrlCountPair1,
+                WritableComparable hostUrlCountPair2) {
+            HostUrlCountPair pair1 = (HostUrlCountPair) hostUrlCountPair1;
+            HostUrlCountPair pair2 = (HostUrlCountPair) hostUrlCountPair2;
+
+            return pair1.compareTo(pair2);
+
+        }
+    }
+
+    // output one line for each month, with the temperatures sorted for that month
+    public static class ReducerImpl extends Reducer<HostUrlCountPair, IntWritable, Text, IntWritable> {
+
+        @Override
+        protected void reduce(HostUrlCountPair key,
+                Iterable<IntWritable> values, Context context)
+                throws IOException, InterruptedException {
+            String currKey = key.getCountryUrl().toString();
+
+            for (IntWritable val : values)
+                context.write(new Text(currKey), new IntWritable(val.get()));
+        }
     }
 
 }
-
-
