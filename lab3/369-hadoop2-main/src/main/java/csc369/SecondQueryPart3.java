@@ -11,7 +11,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class SecondQueryOutput {
+public class SecondQueryPart3 {
 
     public static final Class OUTPUT_KEY_CLASS = Text.class;
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
@@ -23,10 +23,10 @@ public class SecondQueryOutput {
                 Context context) throws IOException, InterruptedException {
             String[] sa = value.toString().replaceAll("\\s+", " ").split(" ");
 
-            String countryUrlAndCount = sa[0] + " " + sa[1] + " " + sa[2];
+            String countryAndUrl = sa[0] + " " + sa[1];
             int count = Integer.valueOf(sa[2]);
 
-            context.write(new Text(countryUrlAndCount), new IntWritable(count));
+            context.write(new Text(countryAndUrl), new IntWritable(count));
         }
     }
 
@@ -50,7 +50,6 @@ public class SecondQueryOutput {
     //     @Override
     //     public void reduce(Text countriesAndUrls, Iterable<IntWritable> counts, Context context)
     //             throws IOException, InterruptedException {
-
     //         System.out.println("xxxxxxxxxxx");
     //         int sum = 0;
 
@@ -63,39 +62,33 @@ public class SecondQueryOutput {
     //     }
     // }
 
-    public static class GroupingComparator extends WritableComparator {
-        public GroupingComparator() {
-            super(Text.class, true);
-        }
+    // public static class GroupingComparator extends WritableComparator {
+    //     public GroupingComparator() {
+    //         super(Text.class, true);
+    //     }
 
-        @Override
-        public int compare(WritableComparable text1,
-                WritableComparable text2) {
+    //     @Override
+    //     public int compare(WritableComparable text1,
+    //             WritableComparable text2) {
 
-            String country1 = text1.toString().split(" ")[0];
-            String country2 = text2.toString().split(" ")[0];
+    //         String country1 = text1.toString().split(" ")[0];
+    //         String country2 = text2.toString().split(" ")[0];
 
-            String url1 = text1.toString().split(" ")[1];
-            String url2 = text2.toString().split(" ")[1];
-
-            String countryAndUrl1 = country1 + url1;
-            String countryAndUrl2 = country2 + url2;
-
-            int count1 = Integer.valueOf(text1.toString().split(" ")[2]);
-            int count2 = Integer.valueOf(text2.toString().split(" ")[2]);
+    //         int count1 = Integer.valueOf(text1.toString().split(" ")[2]);
+    //         int count2 = Integer.valueOf(text2.toString().split(" ")[2]);
             
-            if (countryAndUrl1.equals(countryAndUrl2)) {
-                if (count1 < count2)
-                    return 1;
-                else if (count1 > count2)
-                    return -1;
-                else
-                    return 0;
-            } else {
-                return countryAndUrl1.compareTo(countryAndUrl2);
-            }
-        }
-    }
+    //         if (country1.equals(country2)) {
+    //             if (count1 < count2)
+    //                 return 1;
+    //             else if (count1 > count2)
+    //                 return -1;
+    //             else
+    //                 return 0;
+    //         } else {
+    //             return country1.compareTo(country2);
+    //         }
+    //     }
+    // }
 
     public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
 
@@ -105,14 +98,14 @@ public class SecondQueryOutput {
             
             String[] sa = countriesUrlsAndCounts.toString().split(" ");
             String countryAndUrl = sa[0] + " " + sa[1];
+            int sum = 0;
 
             for (IntWritable el : counts)
-                context.write(new Text(countryAndUrl), el);
+                sum += el.get();
 
+            context.write(new Text(countryAndUrl), new IntWritable(sum));
         }
 
     }
 
 }
-
-

@@ -1,4 +1,5 @@
 package csc369;
+
 import java.io.IOException;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
@@ -28,24 +29,16 @@ public class HadoopApp {
                     KeyValueTextInputFormat.class, FirstQueryPart1.MapperAccessLog.class);
             MultipleInputs.addInputPath(job, new Path(otherArgs[2]),
                     KeyValueTextInputFormat.class, FirstQueryPart1.MapperHostnameCountry.class);
+            job.setGroupingComparatorClass(FirstQueryPart1.GroupingComparator.class);
             job.setReducerClass(FirstQueryPart1.JoinReducer.class);
             job.setOutputKeyClass(FirstQueryPart1.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(FirstQueryPart1.OUTPUT_VALUE_CLASS);
             FileOutputFormat.setOutputPath(job, new Path(otherArgs[3]));
 
-        } else if ("FirstQueryPart2".equalsIgnoreCase(otherArgs[0])) {
-            job.setReducerClass(FirstQueryPart2.ReducerImpl.class);
-            job.setMapperClass(FirstQueryPart2.MapperImpl.class);
-            job.setOutputKeyClass(FirstQueryPart2.OUTPUT_KEY_CLASS);
-            job.setOutputValueClass(FirstQueryPart2.OUTPUT_VALUE_CLASS);
-            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
-            FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
-
         } else if ("FirstQueryOutput".equalsIgnoreCase(otherArgs[0])) {
             job.setReducerClass(FirstQueryOutput.ReducerImpl.class);
             job.setMapperClass(FirstQueryOutput.MapperImpl.class);
-            job.setCombinerClass(FirstQueryOutput.CombinerImpl.class);
-            job.setGroupingComparatorClass(FirstQueryOutput.GroupingComparator.class);
+            job.setSortComparatorClass(FirstQueryOutput.SortComparator.class);
             job.setOutputKeyClass(FirstQueryOutput.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(FirstQueryOutput.OUTPUT_VALUE_CLASS);
             FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
@@ -69,11 +62,18 @@ public class HadoopApp {
             FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
             FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
 
+        } else if ("SecondQueryPart3".equalsIgnoreCase(otherArgs[0])) {
+            job.setReducerClass(SecondQueryPart3.ReducerImpl.class);
+            job.setMapperClass(SecondQueryPart3.MapperImpl.class);
+            job.setOutputKeyClass(SecondQueryPart3.OUTPUT_KEY_CLASS);
+            job.setOutputValueClass(SecondQueryPart3.OUTPUT_VALUE_CLASS);
+            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+            FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
+
         } else if ("SecondQueryOutput".equalsIgnoreCase(otherArgs[0])) {
             job.setReducerClass(SecondQueryOutput.ReducerImpl.class);
             job.setMapperClass(SecondQueryOutput.MapperImpl.class);
-            job.setCombinerClass(SecondQueryOutput.CombinerImpl.class);
-            // job.setGroupingComparatorClass(SecondQueryOutput.GroupingComparator.class);
+            job.setGroupingComparatorClass(SecondQueryOutput.GroupingComparator.class);
             job.setOutputKeyClass(SecondQueryOutput.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(SecondQueryOutput.OUTPUT_VALUE_CLASS);
             FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
@@ -87,9 +87,3 @@ public class HadoopApp {
     }
 
 }
-
-
-
-
-
-

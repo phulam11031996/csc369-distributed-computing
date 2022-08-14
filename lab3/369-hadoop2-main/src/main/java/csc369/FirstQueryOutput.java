@@ -1,6 +1,7 @@
 package csc369;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
@@ -12,67 +13,48 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class FirstQueryOutput {
 
-    public static final Class OUTPUT_KEY_CLASS = Text.class;
-    public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
+    public static HashMap<String, String> ipAddressCountry = new HashMap<>();
+    public static final Class OUTPUT_KEY_CLASS = IntWritable.class;
+    public static final Class OUTPUT_VALUE_CLASS = Text.class;
 
-    public static class MapperImpl extends Mapper<LongWritable, Text, Text, IntWritable> {
+    public static class MapperImpl extends Mapper<LongWritable, Text, IntWritable, Text> {
 
         @Override
-        protected void map(LongWritable key, Text value,
+        protected void map(LongWritable keys, Text values,
                 Context context) throws IOException, InterruptedException {
-            String[] sa = value.toString().replaceAll("\\s+", " ").split(" ");
+            String[] strKey = values.toString().replaceAll("\\s+", " ").split(" ");
+            String country = strKey[0];
+            int sum = Integer.valueOf(strKey[1]);
 
-            String hostname = sa[0];
-            IntWritable count = new IntWritable(Integer.valueOf(sa[1]));
-            context.write(new Text(hostname), count);
+            context.write(new IntWritable(sum), new Text(country));
         }
+
     }
 
-    public static class CombinerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-        @Override
-        public void reduce(Text hostname, Iterable<IntWritable> counts, Context context)
-                throws IOException, InterruptedException {
-            int sum = 0;
-
-            for (IntWritable count : counts)
-                sum += count.get();
-
-            String hostnameAndCount = hostname + " " + String.valueOf(sum);
-            context.write(new Text(hostnameAndCount), new IntWritable(sum));
-        }
-    }
-
-    // to sort in ascending order
-    public static class GroupingComparator extends WritableComparator {
-        public GroupingComparator() {
-            super(Text.class, true);
+    public static class SortComparator extends WritableComparator {
+        protected SortComparator() {
+            super(IntWritable.class, true);
         }
 
         @Override
-        public int compare(WritableComparable wc1,
-                WritableComparable wc2) {
-            int hostnameCount1 = Integer.valueOf(wc1.toString().split(" ")[1]);
-            int hostnameCount2 = Integer.valueOf(wc2.toString().split(" ")[1]);
+        public int compare(WritableComparable sum1,
+                WritableComparable sum2) {
+            IntWritable sum01 = (IntWritable) sum1;
+            IntWritable sum02 = (IntWritable) sum2;
 
-            if (hostnameCount1 == hostnameCount2)
-                return 0;
-            else if (hostnameCount1 < hostnameCount2)
-                return 1;
-            else
-                return -1;
+            return -1 * sum01.compareTo(sum02);
         }
+
     }
 
-    public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class ReducerImpl extends Reducer<IntWritable, Text, Text, IntWritable> {
 
         @Override
-        protected void reduce(Text hostname, Iterable<IntWritable> count,
+        protected void reduce(IntWritable sums, Iterable<Text> countries,
                 Context context) throws IOException, InterruptedException {
-            String currHostname = hostname.toString().split(" ")[0];
 
-            for (IntWritable el : count)
-                context.write(new Text(currHostname), el);
+            for (Text country : countries)
+                context.write(new Text(country), sums);
         }
 
     }
