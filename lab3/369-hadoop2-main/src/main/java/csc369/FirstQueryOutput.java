@@ -19,9 +19,9 @@ public class FirstQueryOutput {
 
     public static class MapperImpl extends Mapper<LongWritable, Text, IntWritable, Text> {
         @Override
-        protected void map(LongWritable keys, Text values,
+        protected void map(LongWritable key, Text value,
                 Context context) throws IOException, InterruptedException {
-            String[] strKey = values.toString().replaceAll("\\s+", " ").split(" ");
+            String[] strKey = value.toString().replaceAll("\\s+", " ").split(" ");
             String country = strKey[0];
             int sum = Integer.valueOf(strKey[1]);
 
@@ -47,11 +47,10 @@ public class FirstQueryOutput {
 
     public static class ReducerImpl extends Reducer<IntWritable, Text, Text, IntWritable> {
         @Override
-        protected void reduce(IntWritable sums, Iterable<Text> countries,
+        protected void reduce(IntWritable key, Iterable<Text> values,
                 Context context) throws IOException, InterruptedException {
-
-            for (Text country : countries)
-                context.write(new Text(country), sums);
+            for (Text val : values)
+                context.write(val, key);
         }
     }
 

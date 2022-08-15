@@ -5,9 +5,11 @@ queryone:
 querytwo:
 	./gradlew run --args="SecondQueryPart1 inputs/access.log inputs/hostname_country.csv two1/"
 	./gradlew run --args="SecondQueryPart2 two1/ two2/"
+	./gradlew run --args="SecondQueryOutput two2/ twooutput/"
 
 clear:
 	rm -rf two1
+	rm -rf two2
 	rm -rf twooutput
 	rm -rf one1
 	rm -rf oneoutput
@@ -21,5 +23,5 @@ run2:
 	make querytwo
 	
 temp:
-	rm -rf twooutput
-	./gradlew run --args="SecondQueryOutput two2/ twooutput/"
+	rm -rf oneoutput/
+	./gradlew run --args="FirstQueryOutput one2/ oneoutput/"

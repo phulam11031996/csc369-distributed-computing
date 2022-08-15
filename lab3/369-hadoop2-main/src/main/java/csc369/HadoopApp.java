@@ -35,6 +35,14 @@ public class HadoopApp {
             job.setOutputValueClass(FirstQueryPart1.OUTPUT_VALUE_CLASS);
             FileOutputFormat.setOutputPath(job, new Path(otherArgs[3]));
 
+        } else if ("FirstQueryPart2".equalsIgnoreCase(otherArgs[0])) {
+            job.setReducerClass(FirstQueryPart2.ReducerImpl.class);
+            job.setMapperClass(FirstQueryPart2.MapperImpl.class);
+            job.setOutputKeyClass(FirstQueryPart2.OUTPUT_KEY_CLASS);
+            job.setOutputValueClass(FirstQueryPart2.OUTPUT_VALUE_CLASS);
+            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+            FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
+
         } else if ("FirstQueryOutput".equalsIgnoreCase(otherArgs[0])) {
             job.setReducerClass(FirstQueryOutput.ReducerImpl.class);
             job.setMapperClass(FirstQueryOutput.MapperImpl.class);
