@@ -1,7 +1,6 @@
 package csc369;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
@@ -13,7 +12,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class FirstQueryOutput {
 
-    public static HashMap<String, String> ipAddressCountry = new HashMap<>();
     public static final Class OUTPUT_KEY_CLASS = IntWritable.class;
     public static final Class OUTPUT_VALUE_CLASS = Text.class;
 

@@ -11,7 +11,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class SecondQueryPart2 {
 
-    public static HashMap<String, String> hostnameAndCountry = new HashMap<>();
     public static final Class OUTPUT_KEY_CLASS = Text.class;
     public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 

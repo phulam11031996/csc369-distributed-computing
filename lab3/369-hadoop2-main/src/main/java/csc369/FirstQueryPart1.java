@@ -32,7 +32,7 @@ public class FirstQueryPart1 {
             String hostname = key.toString().replaceAll("\\s+", "");
             String country = value.toString().replaceAll("\\s+", "");
 
-            hostnameAndCountry.put(hostname.toString(), country.toString());
+            hostnameAndCountry.put(hostname, country);
         }
     }
 

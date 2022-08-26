@@ -38,7 +38,7 @@ public class HostUrlCountPair
     @Override
     public int compareTo(HostUrlCountPair pair) {
         if (this.country.compareTo(pair.getCountry()) == 0) {
-            return sum.compareTo(pair.sum);
+            return -1 * sum.compareTo(pair.sum);
         }
         return this.country.compareTo(pair.getCountry());
     }

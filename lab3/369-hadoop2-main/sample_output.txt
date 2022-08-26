@@ -1,0 +1,64 @@
+To run program:
+    - For first query, type 'make run1'
+    - For second query, type 'make run2'
+
+Note: the output will also be printed in the terminal
+
+Sample output:
+First query: 
+
+UnknownLocation 812
+Intranet        198
+Canada  127
+UnitedStates    87
+Robot   80
+Israel  19
+Australia       17
+France  16
+WhereverYouWanttoShip   13
+Germany 13
+UnitedKingdom   6
+Korea   4
+Spain   4
+Denmark 4
+Netherlands     2
+LosAlamos       1
+Taiwan  1
+Finland 1
+Mexico  1
+
+Second query:
+Australia /twiki/bin/view/Main/SpamAssassinDeleting     2
+Australia /twiki/bin/view/Main/SpamAssassinAndPostFix   2
+Australia /mailman/listinfo     2
+Australia /icons/PythonPowered.png      1
+Australia /mailman/listinfo/administration      1
+Australia /mailman/admin/webct  1
+Australia /mailman/admin        1
+Australia /twiki/bin/view/Main/SpamAssassinTaggingOnly  1
+Australia /mailman/listinfo/cnc_notice  1
+Australia /mailman      1
+Australia /icons/mailman.jpg    1
+Australia /icons/gnu-head-tiny.jpg      1
+Australia /twiki/bin/view/Main/WebHome  1
+Australia /twiki/pub/TWiki/TWikiLogos/twikiRobot46x50.gif       1
+Canada /mailman/listinfo/ppwc   9
+Canada /mailman/admin/ppwc      9
+Canada /mailman/listinfo        6
+Canada /icons/mailman.jpg       5
+Canada /ie.htm  5
+Canada /images/image004.jpg     5
+Canada /images/image005.jpg     5
+Canada /images/msgops.JPG       5
+Canada /icons/PythonPowered.png 5
+Canada /icons/gnu-head-tiny.jpg 5
+Canada /        4
+Canada /mailman 3
+.
+.
+.
+WhereverYouWanttoShip /dccstats/stats-spam-ratio.1year.png      1
+WhereverYouWanttoShip /dccstats/stats-spam.1day.png     1
+WhereverYouWanttoShip /dccstats/stats-spam.1month.png   1
+WhereverYouWanttoShip /dccstats/stats-spam.1week.png    1
+WhereverYouWanttoShip /dccstats/stats-spam.1year.png    1

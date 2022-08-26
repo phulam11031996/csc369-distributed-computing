@@ -28,15 +28,6 @@ public class SecondQueryOutput {
         }
     }
 
-    public static class PartitionerImpl extends Partitioner<HostUrlCountPair, IntWritable> {
-        @Override
-        public int getPartition(HostUrlCountPair pair,
-                IntWritable sum,
-                int numberOfPartitions) {
-            return Math.abs(pair.getCountryUrl().hashCode() % numberOfPartitions);
-        }
-    }
-
     public static class GroupingComparator extends WritableComparator {
         public GroupingComparator() {
             super(HostUrlCountPair.class, true);
